@@ -7,7 +7,7 @@ from io import BytesIO
 from firestore import save_predict
 from storage import load_model
 import os 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/mnt/c/credential/worknonetwork-project-b644d5daa2d1.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/mnt/c/credential/worknonetwork-project-f46884310b6c.json"
 
 app = FastAPI()
 
@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 bucket_name = "wnn-bucket"
-blob_name = "model-in-prod/"
+blob_name = "model-in-prod/WNN_Model.onnx"
 
 try:
     session = load_model(bucket_name, blob_name)
@@ -30,7 +30,7 @@ except Exception as e:
     raise RuntimeError(f"Failed to load model: {e}")
 
 def preprocess_image(image):
-    image = image.resize((150, 150)) 
+    image = image.resize((224, 224)) 
     image = np.array(image).astype(np.float32) / 255.0 
     
     image = np.expand_dims(image, axis=0)  
