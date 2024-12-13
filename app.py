@@ -4,7 +4,6 @@ import onnxruntime as ort
 import numpy as np
 from PIL import Image
 from io import BytesIO
-from firestore import save_predict
 from storage import load_model
 import os 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/mnt/c/credential/worknonetwork-project-f46884310b6c.json"
@@ -51,7 +50,5 @@ async def predict(file: UploadFile = File(...)):
 
     inputs = {session.get_inputs()[0].name: input_data}
     prediction = session.run(None, inputs)
-
-    save_predict(prediction[0].tolist())
 
     return JSONResponse(content={"prediction": prediction[0].tolist()})
